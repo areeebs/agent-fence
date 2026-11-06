@@ -1,0 +1,12 @@
+{
+  "default_action": "confirm",
+  "rules": [
+    {"action": "deny",    "pattern": "rm\\s+-rf\\s+[/~]", "note": "recursive delete of / or home"},
+    {"action": "deny",    "pattern": "(curl|wget)[^\\n|]*\\|\\s*(sudo\\s+)?(sh|bash)", "note": "pipe-to-shell"},
+    {"action": "deny",    "pattern": ">\\s*~?/?\\.ssh/|~/\\.aws/credentials", "note": "writes to credentials"},
+    {"action": "confirm", "pattern": "\\bsudo\\b", "note": "privilege escalation"},
+    {"action": "confirm", "pattern": "\\b(curl|wget|scp|ssh|nc)\\b", "note": "network access"},
+    {"action": "confirm", "pattern": "\\bgit\\s+push\\b", "note": "publishes code"},
+    {"action": "allow",   "pattern": "^\\s*(ls|pwd|cat|echo|head|tail|grep|find|git\\s+(status|log|diff))\\b"}
+  ]
+}

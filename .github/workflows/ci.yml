@@ -1,0 +1,18 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python3 -m unittest discover -s tests -v
+      - name: smoke-test the CLI
+        run: |
+          python3 -m agentfence check -- "rm -rf /"   && exit 1 || echo "correctly non-zero for deny"
+          python3 -m agentfence run --dry-run -- "ls -la"
